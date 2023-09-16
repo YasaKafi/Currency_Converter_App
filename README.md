@@ -1,6 +1,6 @@
 # currency_converter
 
-final project submission Flutter app for beginners Dicoding
+Converter currency application
 ## Getting Started
 
 This project is a starting point for a Flutter application.
