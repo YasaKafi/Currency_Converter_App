@@ -1,7 +1,6 @@
 # currency_converter
 
-A new Flutter project.
-
+Converter currency application
 ## Getting Started
 
 This project is a starting point for a Flutter application.
