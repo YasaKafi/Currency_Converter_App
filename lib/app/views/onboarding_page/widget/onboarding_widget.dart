@@ -2,7 +2,6 @@ import 'package:currency_converter/helpers/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-//On Boarding Content
 class OnBoardingContent extends StatelessWidget {
   const OnBoardingContent({
     super.key,
@@ -17,7 +16,7 @@ class OnBoardingContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 170,
         ),
         SvgPicture.asset(
@@ -25,8 +24,8 @@ class OnBoardingContent extends StatelessWidget {
           height: 220,
           width: 280,
         ),
-        SizedBox(height: 40),
-        Container(
+        const SizedBox(height: 40),
+        SizedBox(
           width: 260,
           child: Text(title,
               textAlign: TextAlign.center, style: onboardingHeaderTextStyle),
@@ -40,23 +39,23 @@ class OnBoardingContent extends StatelessWidget {
                 style: onboardingSubHeaderTextStyle),
           ),
         ),
-        Spacer(),
+        const Spacer(),
       ],
     );
   }
 }
 
-//List On Boarding Content
+
 class OnBoardingContentList {
   final List<OnBoardingContent> list_on_board = [
-    OnBoardingContent(
+    const OnBoardingContent(
       image: 'assets/currency-calculator.svg',
       title: "Convert Currency Fast",
       description:
           "Enter the amount you choose to convert, see results instantly without \nwasting time.",
     ),
-    OnBoardingContent(
-      image: 'assets/digital-currency.svg',
+    const OnBoardingContent(
+      image: 'assets/tedika.svg',
       title: "See Latest Live Rates!",
       description: "Easily check the latest rates and know all details.",
     ),
@@ -74,7 +73,7 @@ class DotIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       height: isActive ? 8 : 6,
       width: 30,
       decoration: BoxDecoration(
@@ -95,16 +94,18 @@ class ButtonOnBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Container(
-      height: 45,
-      width: 250,
+      height: screenHeight * 0.0505,
+      width: screenWidth * 0.6,
       decoration: BoxDecoration(
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
-            color: Colors.grey, // Warna bayangan
-            offset: Offset(0, 4), // Geser bayangan secara vertikal
-            blurRadius: 6, // Jarak blur bayangan
-            spreadRadius: 0, // Menyebarkan bayangan
+            color: Colors.grey, 
+            offset: Offset(0, 4), 
+            blurRadius: 6, 
+            spreadRadius: 0, 
           ),
         ],
         borderRadius: BorderRadius.circular(20),

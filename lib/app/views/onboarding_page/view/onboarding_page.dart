@@ -1,17 +1,16 @@
 // ignore_for_file: camel_case_types, prefer_typing_uninitialized_variables
-import 'package:currency_converter/views/home_page/home_page.dart';
+import 'package:currency_converter/app/views/onboarding_page/controller/onboarding_controller.dart';
 import 'package:flutter/material.dart';
 
-import 'widget/onboarding_widget.dart';
+import '../widget/onboarding_widget.dart';
 
 class OnBoardingScreen extends StatefulWidget {
-  const OnBoardingScreen({Key? key}) : super(key: key);
-
   @override
   State<OnBoardingScreen> createState() => _OnBoardingScreenState();
 }
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
+  OnBoardController onBoardController = OnBoardController();
   PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
 
@@ -35,6 +34,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     OnBoardingContentList contentList = OnBoardingContentList();
     return Scaffold(
       body: SafeArea(
@@ -53,7 +54,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 25, left: 25, bottom: 80),
+              padding: EdgeInsets.only(right: screenWidth * 0.0606, left: screenWidth * 0.0606, bottom: screenHeight * 0.0898),
               child: Column(
                 children: [
                   Row(
@@ -62,7 +63,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       ...List.generate(
                         contentList.list_on_board.length,
                         (index) => Padding(
-                          padding: const EdgeInsets.only(right: 4),
+                          padding:  EdgeInsets.only(right: screenWidth * 0.0097),
                           child: DotIndicator(
                             isActive: index == _currentPage,
                           ),
@@ -70,26 +71,20 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 60,
                   ),
                   _currentPage == contentList.list_on_board.length - 1
                       ? GestureDetector(
-                          onTap: () => Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) => HomePage(),
-                            ),
-                          ),
-                          child: ButtonOnBoard(text: 'Let`s Start')
-                        )
+                          onTap: () =>
+                              onBoardController.navigateToStart(context),
+                          child: const ButtonOnBoard(text: 'Let`s Start'))
                       : GestureDetector(
                           onTap: () {
-                            _pageController.nextPage(
-                              duration: Duration(milliseconds: 300),
-                              curve: Curves.ease,
-                            );
+                            onBoardController
+                                .navigateToNextPage(_pageController);
                           },
-                          child: ButtonOnBoard(text: 'Continue'),
+                          child: const ButtonOnBoard(text: 'Continue'),
                         ),
                 ],
               ),
@@ -100,5 +95,3 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     );
   }
 }
-
-

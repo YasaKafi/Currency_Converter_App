@@ -1,8 +1,7 @@
 import 'dart:async';
-
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:currency_converter/helpers/themes.dart';
-import 'package:currency_converter/views/onboarding_page/onboarding_page.dart';
+import 'package:currency_converter/app/views/onboarding_page/view/onboarding_page.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -13,9 +12,8 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    Timer(Duration(seconds: 4), () {
+    Timer(const Duration(seconds: 4), () {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => OnBoardingScreen()));
     });
@@ -31,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Center(
         child: Container(
-          padding: EdgeInsets.only(bottom: 80),
+          padding: const EdgeInsets.only(bottom: 80),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
