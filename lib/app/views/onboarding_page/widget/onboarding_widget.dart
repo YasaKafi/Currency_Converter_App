@@ -55,7 +55,7 @@ class OnBoardingContentList {
           "Enter the amount you choose to convert, see results instantly without \nwasting time.",
     ),
     const OnBoardingContent(
-      image: 'assets/tedika.svg',
+      image: 'assets/digital-currency.svg',
       title: "See Latest Live Rates!",
       description: "Easily check the latest rates and know all details.",
     ),

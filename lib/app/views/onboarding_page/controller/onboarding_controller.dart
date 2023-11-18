@@ -1,6 +1,5 @@
+import 'package:currency_converter/app/views/home_page/view/home_page.dart';
 import 'package:flutter/material.dart';
-
-import '../../navigation_bar/navigation_bar.dart';
 
 class OnBoardController {
 
@@ -15,7 +14,7 @@ class OnBoardController {
 
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => const BottomNavBar(),
+        builder: (context) =>  HomePage(),
       ),
     );
   }

@@ -54,7 +54,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(right: screenWidth * 0.0606, left: screenWidth * 0.0606, bottom: screenHeight * 0.0898),
+              padding: EdgeInsets.only(
+                  right: screenWidth * 0.0606,
+                  left: screenWidth * 0.0606,
+                  bottom: screenHeight * 0.0898),
               child: Column(
                 children: [
                   Row(
@@ -63,7 +66,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       ...List.generate(
                         contentList.list_on_board.length,
                         (index) => Padding(
-                          padding:  EdgeInsets.only(right: screenWidth * 0.0097),
+                          padding: EdgeInsets.only(right: screenWidth * 0.0097),
                           child: DotIndicator(
                             isActive: index == _currentPage,
                           ),
@@ -95,3 +98,5 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     );
   }
 }
+
+

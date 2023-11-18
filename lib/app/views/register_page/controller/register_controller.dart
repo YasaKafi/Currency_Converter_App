@@ -22,7 +22,7 @@ class RegisterController {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) =>
-            HomePage(email: email, name: name, phoneNumber: phoneNumber),
+            HomePage(),
       ),
     );
   }

@@ -13,7 +13,7 @@ class LoginController {
     String email = emailController.text;
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => HomePage(email: email, name: 'null',phoneNumber: 'null'),
+        builder: (context) => HomePage(),
       ),
     );
   }

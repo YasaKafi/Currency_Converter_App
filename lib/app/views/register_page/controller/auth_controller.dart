@@ -32,9 +32,7 @@ class AuthControllerRegister {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => const HomePage(
-                phoneNumber: '',
-                email: '',
-                name: '',
+
               ),
             ),
           );
@@ -62,9 +60,6 @@ class AuthControllerRegister {
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => const HomePage(
-                phoneNumber: '',
-                email: '',
-                name: '',
               ),
             ),
           );

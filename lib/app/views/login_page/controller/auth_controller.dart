@@ -28,9 +28,6 @@ class AuthController {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => const HomePage(
-                phoneNumber: '',
-                email: '',
-                name: '',
               ),
             ),
           );
