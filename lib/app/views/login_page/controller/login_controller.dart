@@ -1,3 +1,4 @@
+import 'package:currency_converter/app/views/navigation_bar/navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../../home_page/view/home_page.dart';
@@ -13,7 +14,7 @@ class LoginController {
     String email = emailController.text;
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => HomePage(),
+        builder: (context) => BottomNavBar(),
       ),
     );
   }

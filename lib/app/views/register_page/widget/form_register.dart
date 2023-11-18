@@ -1,3 +1,4 @@
+import 'package:currency_converter/app/views/navigation_bar/navigation_bar.dart';
 import 'package:currency_converter/app/views/register_page/widget/widget_register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -186,6 +187,11 @@ class FormRegister extends StatelessWidget {
                             await FirebaseAuth.instance
                                 .signInWithCredential(credential);
                           }
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => const BottomNavBar(),
+                            ),
+                          );
                         } else {
                           GoogleSignIn().signOut();
                           FirebaseAuth.instance.signOut();
@@ -257,7 +263,6 @@ class FormRegister extends StatelessWidget {
               ],
             ),
           ),
-          
         ],
       ),
     );

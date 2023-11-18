@@ -1,0 +1,50 @@
+import 'package:currency_converter/helpers/themes.dart';
+import 'package:currency_converter/app/views/home_page/view/home_page.dart';
+import 'package:currency_converter/app/views/profile_page/view/profile_page.dart';
+import 'package:flutter/material.dart';
+import 'package:rolling_bottom_bar/rolling_bottom_bar.dart';
+import 'package:rolling_bottom_bar/rolling_bottom_bar_item.dart';
+
+
+
+class BottomNavBar extends StatefulWidget {
+  const BottomNavBar({Key? key}) : super(key: key);
+
+  @override
+  State<BottomNavBar> createState() => _BottomNavBarState();
+}
+
+class _BottomNavBarState extends State<BottomNavBar> {
+  final PageController _controller = PageController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: PageView(
+        physics: NeverScrollableScrollPhysics(),
+        controller: _controller,
+        children: const <Widget>[
+          HomePage(),
+          ProfilePage(),
+        ],
+      ),
+      extendBody: true,
+      bottomNavigationBar: RollingBottomBar(
+        controller: _controller,
+        items: const [
+          RollingBottomBarItem(Icons.currency_exchange, label: 'Convert'),
+          RollingBottomBarItem(Icons.person, label: 'profile'),
+        ],
+        enableIconRotation: false,
+        activeItemColor: primaryColor,
+        onTap: (index) {
+          _controller.animateToPage(
+            index,
+            duration: const Duration(milliseconds: 400),
+            curve: Curves.easeOut,
+          );
+        },
+      ),
+    );
+  }
+}

@@ -1,3 +1,4 @@
+import 'package:currency_converter/app/views/navigation_bar/navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -31,7 +32,7 @@ class AuthControllerRegister {
           // ignore: use_build_context_synchronously
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (context) => const HomePage(
+              builder: (context) => const BottomNavBar(
 
               ),
             ),
@@ -59,7 +60,7 @@ class AuthControllerRegister {
         // ignore: use_build_context_synchronously
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (context) => const HomePage(
+              builder: (context) => const BottomNavBar(
               ),
             ),
           );

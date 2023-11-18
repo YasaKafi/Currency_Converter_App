@@ -101,44 +101,153 @@ class _HomePageState extends State<HomePage> {
     CurrencyConverterController controller = CurrencyConverterController();
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Center(
-              child: Padding(
-                padding: EdgeInsets.only(
-                  top: screenHeight * 0.0237,
+      body: Column(
+        children: [
+          Center(
+            child: Padding(
+              padding: EdgeInsets.only(
+                top: screenHeight * 0.0337,
+              ),
+              child: Text(
+                'Currency Converter',
+                style: pageHeaderTextStyle,
+              ),
+            ),
+          ),
+          FutureBuilder<String?>(
+            future: controller.fetchLastUpdatedAt(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Text("Loading...");
+              } else if (snapshot.hasError) {
+                return Text(
+                  "Error: ${snapshot.error}",
+                  style: onboardingSubHeaderTextStyle,
+                );
+              } else if (snapshot.hasData) {
+                return Text("Last updated at: ${snapshot.data}");
+              } else {
+                return Text("Data not available");
+              }
+            },
+          ),
+          SizedBox(
+            height: screenHeight * 0.0112,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                vertical: screenHeight * 0.0157,
+                horizontal: screenWidth * 0.034),
+            child: Container(
+              decoration: BoxDecoration(
+                color: primaryTextColorWhite,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 5.0,
+                    offset: Offset(0.0, 2.0),
+                  ),
+                ],
+              ),
+              height: screenHeight * 0.112,
+              child: Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: screenWidth * 0.0728),
+                    child: SizedBox(
+                      width: screenWidth * 0.2428,
+                      child: DropdownButton<String>(
+                        value: _fromCurrency,
+                        items: _currencies.map((currency) {
+                          return DropdownMenuItem(
+                            alignment: Alignment.center,
+                            value: currency,
+                            child: Text(
+                              currency,
+                              style: dropdownTextStyle,
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _fromCurrency = value!;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: screenWidth * 0.0971,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.0291,
+                        vertical: screenHeight * 0.0135),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: screenWidth * 0.0728,
+                        ),
+                        Container(
+                            height: screenHeight * 0.0448,
+                            width: screenWidth * 0.364,
+                            child: Column(
+                              children: [
+                                Text(
+                                  _amount,
+                                  style: amountTextStyle(fontSize: 24),
+                                ),
+                                Divider(
+                                  color: primaryColor,
+                                  height: 0.5,
+                                )
+                              ],
+                            )),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            height: screenHeight * 0.0122,
+          ),
+          Container(
+            height: screenHeight * 0.0562,
+            width: screenWidth * 0.1214,
+            decoration: BoxDecoration(
+              color: primaryTextColorWhite,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  blurRadius: 5.0,
+                  offset: Offset(0.0, 2.0),
                 ),
-                child: Text(
-                  'Currency Converter',
-                  style: pageHeaderTextStyle,
+              ],
+            ),
+            child: GestureDetector(
+              onTap: _convertCurrency,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.0194,
+                    vertical: screenHeight * 0.00898),
+                child: SvgPicture.asset(
+                  'assets/transfer.svg',
                 ),
               ),
             ),
-            FutureBuilder<String?>(
-              future: controller.fetchLastUpdatedAt(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Text("Loading...");
-                } else if (snapshot.hasError) {
-                  return Text(
-                    "Error: ${snapshot.error}",
-                    style: onboardingSubHeaderTextStyle,
-                  );
-                } else if (snapshot.hasData) {
-                  return Text("Last updated at: ${snapshot.data}");
-                } else {
-                  return Text("Data not available");
-                }
-              },
-            ),
-            SizedBox(
-              height: screenHeight * 0.0112,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: screenHeight * 0.0157,
-                  horizontal: screenWidth * 0.034),
+          ),
+          SizedBox(
+            height: screenHeight * 0.0122,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                vertical: screenHeight * 0.0157,
+                horizontal: screenWidth * 0.034),
+            child: Card(
               child: Container(
                 decoration: BoxDecoration(
                   color: primaryTextColorWhite,
@@ -159,20 +268,19 @@ class _HomePageState extends State<HomePage> {
                       child: SizedBox(
                         width: screenWidth * 0.2428,
                         child: DropdownButton<String>(
-                          value: _fromCurrency,
+                          value: _toCurrency,
                           items: _currencies.map((currency) {
                             return DropdownMenuItem(
-                              alignment: Alignment.center,
                               value: currency,
                               child: Text(
-                                currency,
+                                '$currency',
                                 style: dropdownTextStyle,
                               ),
                             );
                           }).toList(),
                           onChanged: (value) {
                             setState(() {
-                              _fromCurrency = value!;
+                              _toCurrency = value!;
                             });
                           },
                         ),
@@ -191,14 +299,18 @@ class _HomePageState extends State<HomePage> {
                             width: screenWidth * 0.0728,
                           ),
                           Container(
-                              height: screenHeight * 0.0448,
+                              margin:
+                                  EdgeInsets.only(top: screenHeight * 0.0337),
+                              height: screenHeight * 0.0449,
                               width: screenWidth * 0.364,
                               child: Column(
                                 children: [
-                                  Text(
-                                    _amount,
-                                    style: amountTextStyle(fontSize: 24),
-                                  ),
+                                  (_amount.isNotEmpty)
+                                      ? Text(
+                                          _result,
+                                          style: amountTextStyle(fontSize: 16),
+                                        )
+                                      : Text("Result"),
                                   Divider(
                                     color: primaryColor,
                                     height: 0.5,
@@ -212,191 +324,77 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            SizedBox(
-              height: screenHeight * 0.0122,
-            ),
-            Container(
-              height: screenHeight * 0.0562,
-              width: screenWidth * 0.1214,
-              decoration: BoxDecoration(
-                color: primaryTextColorWhite,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    blurRadius: 5.0,
-                    offset: Offset(0.0, 2.0),
-                  ),
-                ],
-              ),
-              child: GestureDetector(
-                onTap: _convertCurrency,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.0194,
-                      vertical: screenHeight * 0.00898),
-                  child: SvgPicture.asset(
-                    'assets/transfer.svg',
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: screenHeight * 0.0122,
-            ),
-            Padding(
+          ),
+          Container(
+            height: screenHeight * 0.4158,
+            margin: EdgeInsets.only(
+                right: screenWidth * 0.0485,
+                left: screenWidth * 0.0485,
+                bottom: screenHeight * 0.0337),
+            width: MediaQuery.of(context).size.width,
+            child: Padding(
               padding: EdgeInsets.symmetric(
-                  vertical: screenHeight * 0.0157,
-                  horizontal: screenWidth * 0.034),
-              child: Card(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: primaryTextColorWhite,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey,
-                        blurRadius: 5.0,
-                        offset: Offset(0.0, 2.0),
-                      ),
-                    ],
-                  ),
-                  height: screenHeight * 0.112,
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: screenWidth * 0.0728),
-                        child: SizedBox(
-                          width: screenWidth * 0.2428,
-                          child: DropdownButton<String>(
-                            value: _toCurrency,
-                            items: _currencies.map((currency) {
-                              return DropdownMenuItem(
-                                value: currency,
-                                child: Text(
-                                  '$currency',
-                                  style: dropdownTextStyle,
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                _toCurrency = value!;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: screenWidth * 0.0971,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: screenWidth * 0.0291,
-                            vertical: screenHeight * 0.0135),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: screenWidth * 0.0728,
-                            ),
-                            Container(
-                                margin:
-                                    EdgeInsets.only(top: screenHeight * 0.0337),
-                                height: screenHeight * 0.0449,
-                                width: screenWidth * 0.364,
-                                child: Column(
-                                  children: [
-                                    (_amount.isNotEmpty)
-                                        ? Text(
-                                            _result,
-                                            style: amountTextStyle(fontSize: 16),
-                                          )
-                                        : Text("Result"),
-                                    Divider(
-                                      color: primaryColor,
-                                      height: 0.5,
-                                    )
-                                  ],
-                                )),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                  horizontal: screenWidth * .0194,
+                  vertical: screenHeight * 0.00898),
+              child: GridView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.all(0),
+                itemCount: buttons.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  crossAxisCount: 4,
                 ),
-              ),
-            ),
-            Container(
-              height: screenHeight * 0.4158,
-              margin: EdgeInsets.only(
-                  right: screenWidth * 0.0485,
-                  left: screenWidth * 0.0485,
-                  bottom: screenHeight * 0.0337),
-              width: MediaQuery.of(context).size.width,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: screenWidth * .0194,
-                    vertical: screenHeight * 0.00898),
-                child: GridView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.all(0),
-                  itemCount: buttons.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    crossAxisCount: 4,
-                  ),
-                  itemBuilder: (BuildContext context, int index) {
-                    if (index == 7) {
-                      return Mybutton(
-                        buttonTapped: () {
-                          setState(() {
-                            _amount = _amount.substring(0, _amount.length - 1);
-                          });
-                        },
-                        buttonText: buttons[index],
-                        color: primaryColor,
-                        style: buttonStyle(color: primaryTextColorWhite),
-                      );
-                    } else if (index == 3) {
-                      return Mybutton(
-                        buttonTapped: () {
-                          setState(() {
-                            _amount = '';
-                          });
-                        },
-                        buttonText: buttons[index],
-                        color: primaryColor,
-                        style: buttonStyle(color: primaryTextColorWhite),
-                      );
-                    } else if (index == 11) {
-                      return Mybutton(
-                        buttonTapped: () {
-                          _convertCurrency();
-                        },
-                        buttonText: buttons[index],
-                        color: primaryColor,
-                        style: buttonStyle(color: primaryTextColorWhite),
-                      );
-                    }
+                itemBuilder: (BuildContext context, int index) {
+                  if (index == 7) {
                     return Mybutton(
-                        buttonTapped: () {
-                          if (_amount.length < 9) {
-                            setState(() {
-                              _amount = _amount + buttons[index];
-                              _result = '';
-                            });
-                          }
-                        },
-                        buttonText: buttons[index],
-                        color: primaryTextColorWhite,
-                        style: amountTextStyle(fontSize: 24));
-                  },
-                ),
+                      buttonTapped: () {
+                        setState(() {
+                          _amount = _amount.substring(0, _amount.length - 1);
+                        });
+                      },
+                      buttonText: buttons[index],
+                      color: primaryColor,
+                      style: buttonStyle(color: primaryTextColorWhite),
+                    );
+                  } else if (index == 3) {
+                    return Mybutton(
+                      buttonTapped: () {
+                        setState(() {
+                          _amount = '';
+                        });
+                      },
+                      buttonText: buttons[index],
+                      color: primaryColor,
+                      style: buttonStyle(color: primaryTextColorWhite),
+                    );
+                  } else if (index == 11) {
+                    return Mybutton(
+                      buttonTapped: () {
+                        _convertCurrency();
+                      },
+                      buttonText: buttons[index],
+                      color: primaryColor,
+                      style: buttonStyle(color: primaryTextColorWhite),
+                    );
+                  }
+                  return Mybutton(
+                      buttonTapped: () {
+                        if (_amount.length < 9) {
+                          setState(() {
+                            _amount = _amount + buttons[index];
+                            _result = '';
+                          });
+                        }
+                      },
+                      buttonText: buttons[index],
+                      color: primaryTextColorWhite,
+                      style: amountTextStyle(fontSize: 24));
+                },
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
